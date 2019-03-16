@@ -1,4 +1,6 @@
 require_relative('../db/sql_runner.rb')
+require_relative('./customers.rb')
+require_relative('./tickets.rb')
 
 class Film
   attr_reader :id
@@ -7,6 +9,19 @@ class Film
     @id = options['id'].to_i if options['id']
     @title = options['title']
     @price = options['price'].to_i
+  end
+
+  def number_of_customers_at_film
+    return customers.length
+  end
+
+  def ticket_price
+    sql = 'SELECT * FROM films
+    WHERE id = $1'
+    values = [@id]
+    film_price_hash = SqlRunner.run(sql, values).first
+    ticket_price = Film.new(film_price_hash).price
+    return ticket_price
   end
 
   def customers

@@ -11,6 +11,14 @@ class Customer
     @funds = options['funds'].to_i
   end
 
+  def number_of_tickets_bought
+    return films.length
+  end
+
+  def buy_ticket(film_obj)
+    return @funds - film_obj.ticket_price
+  end
+
   def films
     sql = 'SELECT films.*
     FROM films
