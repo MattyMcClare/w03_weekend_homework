@@ -11,9 +11,6 @@ class Film
     @price = options['price'].to_i
   end
 
-  def number_of_customers_at_film
-    return customers.length
-  end
 
   def ticket_price
     sql = 'SELECT * FROM films
@@ -24,16 +21,7 @@ class Film
     return ticket_price
   end
 
-  def customers
-    sql = 'SELECT customers.*
-    FROM customers
-    INNER JOIN tickets
-    ON tickets.customer_id = customers.id
-    WHERE film_id = $1'
-    values = [@id]
-    customers = SqlRunner.run(sql, values)
-    return customers.map { |customer| Customer.new(customer) }
-  end
+
 
   def save
     sql = 'INSERT INTO films (title, price)

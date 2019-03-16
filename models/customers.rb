@@ -11,23 +11,23 @@ class Customer
     @funds = options['funds'].to_i
   end
 
-  def number_of_tickets_bought
-    return films.length
+  def number_of_tickets_bought_by_customer
+    return screenings.length
   end
 
   def buy_ticket(film_obj)
     return @funds - film_obj.ticket_price
   end
 
-  def films
-    sql = 'SELECT films.*
-    FROM films
+  def screenings
+    sql = 'SELECT screenings.*
+    FROM screenings
     INNER JOIN tickets
-    ON tickets.film_id = films.id
+    ON tickets.screening_id = screenings.id
     WHERE customer_id = $1'
     values = [@id]
     films = SqlRunner.run(sql, values)
-    return films.map { |film| Film.new(film) }
+    return films.map { |film| Screening.new(film) }
   end
 
   def save
